@@ -4,8 +4,6 @@ import { LoginSchemaType, ResetPasswordSchemaType, MfaSchemaType } from "../sche
 
 export const authService = {
   async login(data: LoginSchemaType): Promise<AuthSession> {
-    await new Promise((resolve) => setTimeout(resolve, 800));
-
     // Rate limiting simulation (mock)
     if (data.email === "ratelimit@medichain.com") {
       throw new Error("Too many attempts. Try again later.");
@@ -27,22 +25,18 @@ export const authService = {
   },
 
   async logout(): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
   },
 
   async forgotPassword(email: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     if (email === "network@medichain.com") {
       throw new Error("Unable to connect.");
     }
   },
 
   async resetPassword(data: ResetPasswordSchemaType): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
   },
 
   async verifyOtp(data: MfaSchemaType): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     if (data.otp !== "123456") {
       throw new Error("Invalid or expired OTP code.");
     }

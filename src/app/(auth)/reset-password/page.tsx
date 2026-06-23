@@ -33,7 +33,6 @@ export default function ResetPasswordPage() {
   });
 
   const onSubmit = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 800));
     toast.success("Password reset completed successfully.");
     router.push(ROUTES.login);
   };

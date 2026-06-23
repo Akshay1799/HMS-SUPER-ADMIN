@@ -32,7 +32,6 @@ export const tenantService = {
     status?: string;
     plan?: string;
   }): Promise<Tenant[]> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     let result = [...tenantsData];
 
     if (filters?.search) {
@@ -61,7 +60,6 @@ export const tenantService = {
   },
 
   async getTenantById(id: string): Promise<TenantDetails> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     const tenant = tenantsData.find((t) => t.id === id);
     if (!tenant) {
       throw new Error(`Tenant with ID ${id} not found.`);
@@ -109,8 +107,6 @@ export const tenantService = {
   },
 
   async createTenant(input: CreateTenantInput): Promise<Tenant> {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
     // Check if code is already used
     if (tenantsData.some((t) => t.code === input.code.toUpperCase())) {
       throw new Error(`Tenant code "${input.code.toUpperCase()}" is already in use.`);
@@ -192,15 +188,9 @@ export const tenantService = {
   },
 
   async updateTenant(id: string, input: Partial<CreateTenantInput>): Promise<Tenant> {
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    
     const idx = tenantsData.findIndex((t) => t.id === id);
-    if (idx === -indexOrNotFound(idx)) {
+    if (idx === -1) {
       throw new Error(`Tenant with ID ${id} not found.`);
-    }
-
-    function indexOrNotFound(i: number) {
-      return i === -1 ? 1 : -1;
     }
 
     const existing = tenantsData[idx];
@@ -279,7 +269,6 @@ export const tenantService = {
   },
 
   async updateFeatureFlags(id: string, flags: FeatureFlags): Promise<FeatureFlags> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     featureFlagsData[id] = flags;
 
     if (!auditsData[id]) auditsData[id] = [];
@@ -295,7 +284,6 @@ export const tenantService = {
   },
 
   async updateQuotas(id: string, quotas: UsageQuota): Promise<UsageQuota> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     quotasData[id] = quotas;
 
     if (!auditsData[id]) auditsData[id] = [];
@@ -311,7 +299,6 @@ export const tenantService = {
   },
 
   async updateSubscription(id: string, subscription: TenantSubscription): Promise<TenantSubscription> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     subscriptionsData[id] = subscription;
 
     // Update status in tenant list too
@@ -334,7 +321,6 @@ export const tenantService = {
   },
 
   async verifyDomain(id: string): Promise<TenantDomain> {
-    await new Promise((resolve) => setTimeout(resolve, 800));
     if (!domainsData[id]) {
       throw new Error("Domain record not found");
     }
@@ -353,7 +339,6 @@ export const tenantService = {
   },
 
   async suspendTenant(id: string): Promise<Tenant> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     const tenant = tenantsData.find((t) => t.id === id);
     if (!tenant) throw new Error("Tenant not found");
     tenant.status = "Suspended";
@@ -372,7 +357,6 @@ export const tenantService = {
   },
 
   async activateTenant(id: string): Promise<Tenant> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     const tenant = tenantsData.find((t) => t.id === id);
     if (!tenant) throw new Error("Tenant not found");
     tenant.status = "Active";
@@ -391,7 +375,6 @@ export const tenantService = {
   },
 
   async deleteTenant(id: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 600));
     tenantsData = tenantsData.filter((t) => t.id !== id);
     delete subscriptionsData[id];
     delete domainsData[id];

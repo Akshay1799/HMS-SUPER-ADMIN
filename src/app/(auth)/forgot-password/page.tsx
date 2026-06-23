@@ -25,7 +25,6 @@ export default function ForgotPasswordPage() {
   });
 
   const onSubmit = async (data: ForgotFormValues) => {
-    await new Promise((resolve) => setTimeout(resolve, 800));
     toast.success(`Reset link dispatched to ${data.email}`);
   };
 

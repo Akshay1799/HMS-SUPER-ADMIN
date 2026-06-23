@@ -43,7 +43,6 @@ export const hospitalService = {
     status?: string;
     state?: string;
   }): Promise<Hospital[]> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     let result = [...hospitalsData];
 
     if (filters?.search) {
@@ -72,7 +71,6 @@ export const hospitalService = {
   },
 
   async getHospital(id: string): Promise<HospitalDetails> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
     const hospital = hospitalsData.find((h) => h.id === id);
     if (!hospital) {
       throw new Error(`Hospital with ID ${id} not found.`);
@@ -112,8 +110,6 @@ export const hospitalService = {
   },
 
   async createHospital(input: CreateHospitalInput): Promise<Hospital> {
-    await new Promise((resolve) => setTimeout(resolve, 800));
-
     if (hospitalsData.some((h) => h.code === input.code.toUpperCase())) {
       throw new Error(`Hospital code "${input.code.toUpperCase()}" is already in use.`);
     }
@@ -191,7 +187,6 @@ export const hospitalService = {
   },
 
   async updateHospital(id: string, input: Partial<CreateHospitalInput>): Promise<Hospital> {
-    await new Promise((resolve) => setTimeout(resolve, 600));
     const idx = hospitalsData.findIndex((h) => h.id === id);
     if (idx === -indexOrNotFound(idx)) throw new Error("Hospital not found");
 
@@ -271,7 +266,6 @@ export const hospitalService = {
   },
 
   async suspendHospital(id: string): Promise<Hospital> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     const hosp = hospitalsData.find((h) => h.id === id);
     if (!hosp) throw new Error("Hospital not found");
     hosp.status = "Suspended";
@@ -289,7 +283,6 @@ export const hospitalService = {
   },
 
   async activateHospital(id: string): Promise<Hospital> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     const hosp = hospitalsData.find((h) => h.id === id);
     if (!hosp) throw new Error("Hospital not found");
     hosp.status = "Active";
@@ -307,7 +300,6 @@ export const hospitalService = {
   },
 
   async deleteHospital(id: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     hospitalsData = hospitalsData.filter((h) => h.id !== id);
     delete branchesData[id];
     delete capacitiesData[id];
@@ -318,12 +310,10 @@ export const hospitalService = {
 
   // Branch CRUD Actions
   async getBranches(hospitalId: string): Promise<Branch[]> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
     return branchesData[hospitalId] || [];
   },
 
   async createBranch(hospitalId: string, input: Omit<Branch, "id" | "hospitalId" | "doctorCount" | "patientCount" | "departmentCount">): Promise<Branch> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     const newBranch: Branch = {
       id: `b-${Date.now()}`,
       hospitalId,
@@ -347,7 +337,6 @@ export const hospitalService = {
   },
 
   async updateBranch(hospitalId: string, branchId: string, input: Partial<Branch>): Promise<Branch> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     const branches = branchesData[hospitalId] || [];
     const idx = branches.findIndex((b) => b.id === branchId);
     if (idx === -1) throw new Error("Branch not found");
@@ -364,7 +353,6 @@ export const hospitalService = {
   },
 
   async deleteBranch(hospitalId: string, branchId: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     if (branchesData[hospitalId]) {
       branchesData[hospitalId] = branchesData[hospitalId].filter((b) => b.id !== branchId);
       
@@ -375,12 +363,10 @@ export const hospitalService = {
 
   // Department CRUD Actions
   async getDepartments(branchId: string): Promise<Department[]> {
-    await new Promise((resolve) => setTimeout(resolve, 350));
     return departmentsData[branchId] || [];
   },
 
   async createDepartment(branchId: string, input: { name: string; status: string }): Promise<Department> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     const newDep: Department = {
       id: `dep-${Date.now()}`,
       branchId,
@@ -398,7 +384,6 @@ export const hospitalService = {
   },
 
   async updateDepartment(branchId: string, depId: string, input: Partial<Department>): Promise<Department> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     const deps = departmentsData[branchId] || [];
     const idx = deps.findIndex((d) => d.id === depId);
     if (idx === -1) throw new Error("Department not found");
@@ -414,7 +399,6 @@ export const hospitalService = {
   },
 
   async deleteDepartment(branchId: string, depId: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     if (departmentsData[branchId]) {
       departmentsData[branchId] = departmentsData[branchId].filter((d) => d.id !== depId);
     }
@@ -422,19 +406,16 @@ export const hospitalService = {
 
   // Specialized Sub-configurations
   async updateCapacity(id: string, input: HospitalCapacity): Promise<HospitalCapacity> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     capacitiesData[id] = input;
     return input;
   },
 
   async updateAccreditation(id: string, input: HospitalAccreditation): Promise<HospitalAccreditation> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     accreditationsData[id] = input;
     return input;
   },
 
   async updateSettings(id: string, input: HospitalSettings): Promise<HospitalSettings> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     settingsData[id] = input;
     return input;
   },

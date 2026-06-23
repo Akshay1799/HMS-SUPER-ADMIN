@@ -32,7 +32,6 @@ export const iamService = {
     status?: string;
     tenantId?: string;
   }): Promise<User[]> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     let result = [...usersData];
 
     if (filters?.search) {
@@ -62,7 +61,6 @@ export const iamService = {
   },
 
   async getUser(id: string): Promise<UserDetails> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
     const user = usersData.find((u) => u.id === id);
     if (!user) throw new Error(`User with ID ${id} not found.`);
 
@@ -90,8 +88,6 @@ export const iamService = {
   },
 
   async createUser(input: CreateUserInput): Promise<User> {
-    await new Promise((resolve) => setTimeout(resolve, 600));
-
     if (usersData.some((u) => u.email.toLowerCase() === input.email.toLowerCase())) {
       throw new Error(`Email "${input.email}" is already registered.`);
     }
@@ -129,7 +125,6 @@ export const iamService = {
   },
 
   async updateUser(id: string, input: Partial<CreateUserInput>): Promise<User> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     const idx = usersData.findIndex((u) => u.id === id);
     if (idx === -1) throw new Error("User not found");
 
@@ -164,7 +159,6 @@ export const iamService = {
   },
 
   async deleteUser(id: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     usersData = usersData.filter((u) => u.id !== id);
     sessionsData = sessionsData.filter((s) => s.userId !== id);
     loginHistoryData = loginHistoryData.filter((l) => l.userId !== id);
@@ -172,7 +166,6 @@ export const iamService = {
   },
 
   async suspendUser(id: string): Promise<User> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     const user = usersData.find((u) => u.id === id);
     if (!user) throw new Error("User not found");
     user.status = "Suspended";
@@ -180,7 +173,6 @@ export const iamService = {
   },
 
   async activateUser(id: string): Promise<User> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     const user = usersData.find((u) => u.id === id);
     if (!user) throw new Error("User not found");
     user.status = "Active";
@@ -189,12 +181,10 @@ export const iamService = {
 
   // Roles CRUD
   async getRoles(): Promise<Role[]> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
     return [...rolesData];
   },
 
   async createRole(input: CreateRoleInput): Promise<Role> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     const newRole: Role = {
       id: `r-${Date.now()}`,
       name: input.name,
@@ -207,7 +197,6 @@ export const iamService = {
   },
 
   async updateRole(id: string, input: Partial<CreateRoleInput>): Promise<Role> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     const idx = rolesData.findIndex((r) => r.id === id);
     if (idx === -1) throw new Error("Role not found");
 
@@ -224,7 +213,6 @@ export const iamService = {
   },
 
   async duplicateRole(id: string): Promise<Role> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     const role = rolesData.find((r) => r.id === id);
     if (!role) throw new Error("Role not found");
 
@@ -240,24 +228,20 @@ export const iamService = {
   },
 
   async deleteRole(id: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     rolesData = rolesData.filter((r) => r.id !== id);
   },
 
   // Permissions Matrix
   async getPermissions(): Promise<string[]> {
-    await new Promise((resolve) => setTimeout(resolve, 200));
     return MOCK_PERMISSIONS;
   },
 
   // Sessions
   async getSessions(): Promise<Session[]> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
     return sessionsData.filter((s) => s.status === "Active");
   },
 
   async terminateSession(id: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
     const sess = sessionsData.find((s) => s.id === id);
     if (sess) {
       sess.status = "Terminated";
@@ -265,7 +249,6 @@ export const iamService = {
   },
 
   async forceLogoutAll(userId: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     sessionsData.forEach((s) => {
       if (s.userId === userId) {
         s.status = "Terminated";
@@ -275,18 +258,15 @@ export const iamService = {
 
   // Login History
   async getLoginHistory(): Promise<LoginHistory[]> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
     return [...loginHistoryData];
   },
 
   // MFA Management
   async getMfa(): Promise<MfaSettings[]> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
     return [...mfaSettingsData];
   },
 
   async enableMfa(userId: string, method: MfaSettings["method"]): Promise<MfaSettings> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     const mfa = mfaSettingsData.find((m) => m.userId === userId);
     if (!mfa) throw new Error("MFA record not found");
 
@@ -297,7 +277,6 @@ export const iamService = {
   },
 
   async disableMfa(userId: string): Promise<MfaSettings> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     const mfa = mfaSettingsData.find((m) => m.userId === userId);
     if (!mfa) throw new Error("MFA record not found");
 

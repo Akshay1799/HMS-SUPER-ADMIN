@@ -40,7 +40,6 @@ export const clinicalService = {
     specialization?: string;
     status?: string;
   }): Promise<Doctor[]> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     let result = [...doctorsData];
 
     if (filters?.search) {
@@ -68,7 +67,6 @@ export const clinicalService = {
   },
 
   async getDoctor(id: string): Promise<DoctorDetails> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
     const doctor = doctorsData.find((d) => d.id === id);
     if (!doctor) throw new Error("Doctor not found");
 
@@ -83,7 +81,6 @@ export const clinicalService = {
   },
 
   async createDoctor(input: DoctorInput): Promise<Doctor> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
     const newId = `doc-${Date.now()}`;
     const newDoc: Doctor = {
       id: newId,
@@ -109,7 +106,6 @@ export const clinicalService = {
     gender?: string;
     status?: string;
   }): Promise<Patient[]> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     let result = [...patientsData];
 
     if (filters?.search) {
@@ -133,7 +129,6 @@ export const clinicalService = {
   },
 
   async getPatient(id: string): Promise<PatientDetails> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
     const patient = patientsData.find((p) => p.id === id);
     if (!patient) throw new Error("Patient not found");
 
@@ -151,7 +146,6 @@ export const clinicalService = {
   },
 
   async getNurses(filters?: { hospitalId?: string; shift?: string }): Promise<Nurse[]> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
     let result = [...nursesData];
     if (filters?.hospitalId && filters.hospitalId !== "All") {
       result = result.filter((n) => n.hospitalId === filters.hospitalId);
@@ -163,7 +157,6 @@ export const clinicalService = {
   },
 
   async getStaff(filters?: { hospitalId?: string; type?: string }): Promise<Staff[]> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
     let result = [...staffData];
     if (filters?.hospitalId && filters.hospitalId !== "All") {
       result = result.filter((s) => s.hospitalId === filters.hospitalId);
@@ -175,7 +168,6 @@ export const clinicalService = {
   },
 
   async getAppointments(filters?: { status?: string; hospitalId?: string }): Promise<Appointment[]> {
-    await new Promise((resolve) => setTimeout(resolve, 350));
     let result = [...appointmentsData];
     if (filters?.status && filters.status !== "All") {
       result = result.filter((a) => a.status === filters.status);
@@ -187,17 +179,14 @@ export const clinicalService = {
   },
 
   async getAdmissions(): Promise<Admission[]> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
     return [...admissionsData];
   },
 
   async getOccupancy(): Promise<BedOccupancy> {
-    await new Promise((resolve) => setTimeout(resolve, 200));
     return MOCK_BED_OCCUPANCY;
   },
 
   async getClinicalAnalytics() {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     return MOCK_CLINICAL_ANALYTICS;
   },
 };
